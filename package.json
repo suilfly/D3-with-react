@@ -1,0 +1,23 @@
+{
+  "name": "d3-with-react",
+  "version": "1.0.0",
+  "description": "a data visualize with D3",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.2.5",
+    "vite": "^5.2.11"
+  }
+}
