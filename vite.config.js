@@ -5,4 +5,7 @@ export default defineConfig({
     jsxInject: `import React from 'react'`,
     jsxFactory: 'React.createElement',
   },
+  define: {
+    d3: 'window.d3',
+  },
 });
