@@ -1,8 +1,23 @@
 import { useEffect } from 'react';
 
+const generateXTickGap = ({ length, marginLeft, marginRight, width }) => {
+  const endWidth = width - marginRight;
+  const startWidth = marginLeft;
+  const gap = (endWidth - startWidth) / (length - 1);
+  return new Array(length).fill().map((_, index) => {
+    return startWidth + gap * index;
+  });
+};
+
 export default function D3AxisLine({ options }) {
   useEffect(() => {
-    const x = d3.scaleOrdinal(options.xAxis.data, [10, 95, 180, 265, 350]);
+    const xTicks = generateXTickGap({
+      width: 400,
+      marginLeft: 30,
+      marginRight: 30,
+      length: options.xAxis.data.length,
+    });
+    const x = d3.scaleOrdinal(options.xAxis.data, xTicks);
     const y = d3.scaleLinear([0, d3.max(options.yAxis.data)], [175, 10]);
 
     const svg = d3
@@ -14,7 +29,7 @@ export default function D3AxisLine({ options }) {
 
     svg
       .append('g')
-      .attr('transform', `translate(20, 180)`)
+      .attr('transform', `translate(0, 180)`)
       .call(d3.axisBottom(x));
 
     svg
