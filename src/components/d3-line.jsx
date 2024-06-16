@@ -61,10 +61,27 @@ export default function D3AxisLine({ options }) {
       .y((d) => y(d.value));
 
     svg
+      .append('linearGradient')
+      .attr('id', '111')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', 0)
+      .attr('y2', height)
+      .selectAll('stop')
+      .data([
+        { offset: y(30) / height, color: 'blue' },
+        { offset: y(30) / height, color: 'red' },
+      ])
+      .join('stop')
+      .attr('offset', (d) => d.offset)
+      .attr('stop-color', (d) => d.color);
+
+    svg
       .append('path')
       .datum(options.data)
       .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
+      .attr('stroke', 'url(#111)')
       .attr('stroke-width', 1.5)
       .attr('d', line);
   }, [options.xAxis]);
