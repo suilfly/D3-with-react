@@ -12,29 +12,13 @@ const options = {
   yAxis: {
     data: [12, 34, 100, 22, 32],
   },
-  data: [
-    {
-      day: '周一',
-      value: 12,
-    },
-    {
-      day: '周二',
-      value: 34,
-    },
-    {
-      day: '周三',
-      value: 100,
-    },
-    {
-      day: '周四',
-      value: 22,
-    },
-    {
-      day: '周五',
-      value: 32,
-    },
-  ],
+  data: [],
 };
+
+options.data = options.xAxis.data.map((x, i) => ({
+  day: x,
+  value: options.yAxis.data[i],
+}));
 export default function App() {
   return (
     <div>
