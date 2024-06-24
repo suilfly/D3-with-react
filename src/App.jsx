@@ -19,6 +19,16 @@ options.data = options.xAxis.data.map((x, i) => ({
   day: x,
   value: options.yAxis.data[i],
 }));
+
+async function testProxy() {
+  const response = await fetch('/api', {
+    method: 'get',
+  });
+  console.log(response);
+}
+
+testProxy();
+
 export default function App() {
   return (
     <div>

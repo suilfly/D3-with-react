@@ -18,6 +18,7 @@ export default function D3AxisLine({ options }) {
     width = 0,
     height = 0,
   } = options;
+
   useEffect(() => {
     const xTicks = generateXTickGap({
       width: width,
@@ -104,7 +105,6 @@ export default function D3AxisLine({ options }) {
       .attr('stroke', 'black');
 
     function mousemoveHandler(event) {
-      console.log(event);
       const index = d3.bisectCenter(x.range(), d3.pointer(event)[0]);
 
       tooltip
@@ -128,7 +128,6 @@ export default function D3AxisLine({ options }) {
             .attr('font-weight', (_, index) => (index ? null : 'bold'))
             .text((d) => d)
         );
-      console.log(y(options.data[index].value));
     }
 
     function mouseleaveHandle() {
