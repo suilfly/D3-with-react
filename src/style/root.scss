@@ -4,27 +4,14 @@ body {
   height: 100%;
   margin: 0;
 }
+a {
+  text-decoration: none;
+}
 
 .root-wrapper {
   width: 1140px;
   height: 100%;
   margin: 0 auto;
-
-  .nav-wrapper {
-    display: flex;
-    height: 100%;
-
-    > ul {
-      width: 240px;
-      border-right: 1px solid #eee;
-      height: 100%;
-      margin: 0;
-    }
-
-    li {
-      list-style: none;
-    }
-  }
 
   > header {
     width: 100%;
@@ -35,10 +22,31 @@ body {
       height: 100%;
       margin: 0 auto;
       border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-  }
 
-  .left-container-wrapper {
-    flex: 1;
+    .menu-list {
+      display: flex;
+      .menu-item {
+        padding: 0 22px;
+        > a {
+          color: #1989fa;
+          opacity: 0.5;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+
+      .selected-menu {
+        > a {
+          opacity: 1;
+        }
+      }
+    }
   }
 }

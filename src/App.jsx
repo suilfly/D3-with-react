@@ -1,21 +1,7 @@
 import './index.js';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Root from './router/root.jsx';
-import LeftContainer from './router/leftContainer.jsx';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    children: [
-      {
-        path: 'nav/:id',
-        element: <LeftContainer />,
-      },
-    ],
-  },
-]);
+import { RouterProvider } from 'react-router-dom';
+import { route } from './router/index.jsx';
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={route} />;
 }
