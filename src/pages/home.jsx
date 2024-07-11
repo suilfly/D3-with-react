@@ -1,13 +1,7 @@
-import '../style/root.scss';
-import { getNavDataList } from '../datas/list';
-import logo from '../asstes/logo.svg';
+import '@/assets/style/root.scss';
+import logo from '@/assets/logo.svg';
 import { Link, Outlet } from 'react-router-dom';
 import { useState } from 'react';
-
-export function createNavItem() {
-  const navs = getNavDataList();
-  return { navs };
-}
 
 export default function Home() {
   const [menuLists, setMenuLists] = useState([
@@ -34,7 +28,6 @@ export default function Home() {
   ]);
 
   function menuClickHandle(index) {
-    console.log(index);
     const values = [...menuLists];
     values.forEach((item, i) => {
       i === index ? (item.selected = true) : (item.selected = false);

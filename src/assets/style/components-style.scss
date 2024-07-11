@@ -1,0 +1,16 @@
+@import './root.scss';
+
+.li-scroll-bar-wrapper {
+  width: fit-content;
+}
+
+.left-nav {
+  width: 240px;
+
+  .list-nav-item {
+    height: 40px;
+    font-size: 14px;
+    line-height: 40px;
+    color: #444;
+  }
+}

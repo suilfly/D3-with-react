@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
-
+const { resolve } = require('path');
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
@@ -12,6 +12,14 @@ export default defineConfig(({ mode }) => {
       d3: 'window.d3',
     },
     base: './',
+    resolve: {
+      alias: [
+        {
+          find: '@',
+          replacement: resolve(__dirname, 'src'),
+        },
+      ],
+    },
     server: {
       proxy: {
         '/api': {
