@@ -14,3 +14,11 @@
     color: #444;
   }
 }
+
+.component-wrapper {
+  display: flex;
+
+  .right-container {
+    flex: 1;
+  }
+}

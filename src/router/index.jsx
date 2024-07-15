@@ -4,6 +4,7 @@ import Guide from '../pages/guide.jsx';
 import Components from '../pages/components.jsx';
 import Theme from '../pages/theme.jsx';
 import Resource from '../pages/resource.jsx';
+import { leftNavList } from '../datas/list.jsx';
 
 export const route = createBrowserRouter([
   {
@@ -17,6 +18,13 @@ export const route = createBrowserRouter([
       {
         path: 'components',
         element: <Components />,
+        children: leftNavList
+          .find((item) => item.key === 'components')
+          .children.map(({ key, component }, index) => ({
+            index: index === 0,
+            path: index === 0 ? '' : key,
+            element: component,
+          })),
       },
       {
         path: 'theme',
