@@ -19,24 +19,34 @@ const controlBtn = [
 export default function D3AxisTimeLine() {
   const [controlList, setControlList] = useState(controlBtn);
   const [axisWidth, setAxisWidth] = useState(0);
-  const currentDate = new Date();
-  let currentRange = 5;
+  const timeInfo = {
+    startTimeStamp: null,
+    endTimeStamp: null,
+    currentRange: 5,
+  };
 
-  let axisStepTimer;
-
+  let axisRatioTimer = null;
   let lastRatioTime = null;
 
   function renderControlBtns() {
     return controlList.map(({ name, selected }) => {
-      return <div className="timeline-top-btn">{name}</div>;
+      return (
+        <div className="timeline-top-btn" key={name}>
+          {name}
+        </div>
+      );
     });
   }
 
   function getTotalms() {
-    return currentRange * 1000 * 60;
+    return timeInfo.currentRange * 1000 * 60;
   }
 
   function updateAxis() {
+    if (axisWidth >= 1193) {
+      setAxisWidth(0);
+      return;
+    }
     const pxPerms = 1193 / getTotalms();
     let step = 0;
     if (lastRatioTime) {
@@ -45,11 +55,16 @@ export default function D3AxisTimeLine() {
 
     lastRatioTime = Date.now();
     setAxisWidth(axisWidth + step);
-    requestAnimationFrame(updateAxis);
+    axisRatioTimer = requestAnimationFrame(updateAxis);
   }
 
   useEffect(() => {
     updateAxis();
+
+    return () => {
+      axisRatioTimer && cancelAnimationFrame(axisRatioTimer);
+      axisRatioTimer = null;
+    };
   });
   return (
     <div className="timeline-wrapper">
