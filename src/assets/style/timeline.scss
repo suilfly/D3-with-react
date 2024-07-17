@@ -48,6 +48,46 @@
             z-index: 1;
           }
         }
+
+        .timeline-axis-label-wrapper {
+          width: 100%;
+          display: flex;
+        }
+      }
+    }
+
+    .timeline-bottom-wrapper {
+      .timeline-range {
+        width: 1193px;
+        height: calc(59px / 2);
+        background-color: rgba(255, 255, 255, 0.08);
+        position: relative;
+
+        .timeline-slider-block {
+          height: 100%;
+          background-color: rgba(68, 158, 254, 0.4);
+          border-left: 1px solid rgba(255, 255, 255, 0.8);
+          border-right: 1px solid rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      .timeline-bottom-axis-wrapper {
+        display: flex;
+      }
+    }
+
+    .timeline-axis-label {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 8px;
+      position: relative;
+      flex-shrink: 0;
+      flex-grow: 0;
+
+      > p {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-50%);
       }
     }
   }
