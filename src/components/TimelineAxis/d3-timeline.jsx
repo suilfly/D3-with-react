@@ -2,6 +2,8 @@ import '@/assets/style/timeline.scss';
 import markerPointIcon from '@/assets/imgs/marker-pointer.png';
 import { useEffect, useState } from 'react';
 import { getDateStringByTimestamp } from '@/utils/index';
+import TopAxisTimeline from './TopAxisTimeline';
+import BottomAxisTimeline from './BottomAxisTimeline';
 const controlBtn = [
   {
     name: '暂停',
@@ -37,56 +39,6 @@ export default function D3AxisTimeLine() {
       return (
         <div className="timeline-top-btn" key={name}>
           {name}
-        </div>
-      );
-    });
-  }
-
-  function renderTopAxisLabels() {
-    const labelCount = 21;
-    const labelSecondsInterval =
-      (timeInfo.currentRange * 60) / (labelCount - 1);
-    const labelWidth = 1193 / (labelCount - 1);
-
-    return new Array(labelCount).fill().map((_, index) => {
-      let timestamp =
-        timeInfo.axisPointStartTimeStamp + index * labelSecondsInterval * 1000;
-
-      if (index === 0) {
-        timestamp = timeInfo.axisPointStartTimeStamp;
-      }
-      const label = getDateStringByTimestamp(timestamp, 'nodate');
-      return (
-        <div
-          className="timeline-axis-label"
-          style={{ width: `${labelWidth}px` }}
-          key={index}
-        >
-          <p>{label}</p>
-        </div>
-      );
-    });
-  }
-
-  function renderBottomAxisLabels() {
-    const labelCount = 31;
-    const interval =
-      (timeInfo.endTimeStamp - timeInfo.startTimeStamp) / (labelCount - 1);
-    const labelWidth = 1193 / (labelCount - 1);
-
-    return new Array(labelCount).fill().map((_, index) => {
-      let timestamp = timeInfo.startTimeStamp + index * interval;
-      if (index === 0) {
-        timestamp = timeInfo.startTimeStamp;
-      }
-      const label = getDateStringByTimestamp(timestamp, 'nodate-minute');
-      return (
-        <div
-          className="timeline-axis-label"
-          style={{ width: `${labelWidth}px` }}
-          key={index}
-        >
-          <p>{label}</p>
         </div>
       );
     });
@@ -131,32 +83,13 @@ export default function D3AxisTimeLine() {
     <div className="timeline-wrapper">
       <div className="timeline-top-wrapper">
         <div className="timeline-control-btn">{renderControlBtns()}</div>
-        <div className="timeline-axis-time">
-          <div
-            className="timeline-inner-progress"
-            style={{
-              width: axisWidth + 'px',
-            }}
-          >
-            <img className="timeline-marker" src={markerPointIcon} />
-          </div>
-          <div className="timeline-axis-label-wrapper">
-            {renderTopAxisLabels()}
-          </div>
-        </div>
+        <TopAxisTimeline axisWidth={axisWidth} timeInfo={timeInfo} />
       </div>
       <div className="timeline-bottom-wrapper">
-        <div className="timeline-range-wrapper">
-          <div className="timeline-range">
-            <div
-              className="timeline-slider-block"
-              style={{ width: `${sliderRangeWidth}px` }}
-            ></div>
-          </div>
-          <div className="timeline-bottom-axis-wrapper">
-            {renderBottomAxisLabels()}
-          </div>
-        </div>
+        <BottomAxisTimeline
+          sliderRangeWidth={sliderRangeWidth}
+          timeInfo={timeInfo}
+        />
       </div>
     </div>
   );

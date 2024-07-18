@@ -1,6 +1,7 @@
 import markerPointIcon from '@/assets/imgs/marker-pointer.png';
+import { getDateStringByTimestamp } from '@/utils/index';
 
-export default function TopAxisTimeline({ axisWidth }) {
+export default function TopAxisTimeline({ axisWidth, timeInfo }) {
   function renderTopAxisLabels() {
     const labelCount = 21;
     const labelSecondsInterval =

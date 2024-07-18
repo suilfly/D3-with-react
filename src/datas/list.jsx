@@ -1,5 +1,5 @@
 import D3AxisLine from '../components/d3-line';
-import D3AxisTimeLine from '../components/d3-timeline';
+import D3AxisTimeLine from '../components/TimelineAxis/d3-timeline';
 
 export const leftNavList = [
   {
