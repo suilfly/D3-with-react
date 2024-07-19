@@ -22,10 +22,10 @@ const controlBtn = [
 export default function D3AxisTimeLine() {
   const [controlList, setControlList] = useState(controlBtn);
   const [axisWidth, setAxisWidth] = useState(0);
-  const [timeInfo] = useState({
+  const [timeInfo, setTimeInfo] = useState({
     axisPointStartTimeStamp: new Date('2024-7-17 08:00:00').getTime(),
     axisPointEndTimeStamp: new Date('2024-7-17 08:10:00').getTime(),
-    currentRange: 5,
+    currentRange: 1,
     startTimeStamp: new Date('2024-7-17 08:00:00').getTime(),
     endTimeStamp: new Date('2024-7-17 09:00:00').getTime(),
   });
@@ -51,6 +51,7 @@ export default function D3AxisTimeLine() {
   function updateAxis() {
     if (axisWidth >= 1193) {
       setAxisWidth(0);
+      updateAxisPointTime();
       return;
     }
     const pxPerms = 1193 / getTotalms();
@@ -69,6 +70,29 @@ export default function D3AxisTimeLine() {
   function getSliderRangeWidth() {
     const pxPerms = 1193 / (timeInfo.endTimeStamp - timeInfo.startTimeStamp);
     return pxPerms * getTotalms();
+  }
+
+  function updateAxisPointTime() {
+    const startTime =
+      timeInfo.axisPointStartTimeStamp + timeInfo.currentRange * 1000 * 60;
+    const endTime =
+      timeInfo.axisPointEndTimeStamp + timeInfo.currentRange * 1000 * 60;
+    if (endTime <= timeInfo.endTimeStamp) {
+      setTimeInfo(
+        Object.assign(timeInfo, {
+          axisPointStartTimeStamp: startTime,
+          axisPointEndTimeStamp: endTime,
+        })
+      );
+    } else {
+      setTimeInfo(
+        Object.assign(timeInfo, {
+          axisPointStartTimeStamp:
+            timeInfo.endTimeStamp - timeInfo.currentRange * 1000 * 60,
+          axisPointEndTimeStamp: timeInfo.endTimeStamp,
+        })
+      );
+    }
   }
 
   useEffect(() => {

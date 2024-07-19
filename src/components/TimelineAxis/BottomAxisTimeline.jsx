@@ -25,12 +25,22 @@ export default function BottomAxisTimeline({ sliderRangeWidth, timeInfo }) {
     });
   }
 
+  function getSliderPostion() {
+    const distance = timeInfo.axisPointStartTimeStamp - timeInfo.startTimeStamp;
+    const totalDistance = timeInfo.endTimeStamp - timeInfo.startTimeStamp;
+
+    return (1193 / totalDistance) * distance;
+  }
+
   return (
     <div className="timeline-range-wrapper">
       <div className="timeline-range">
         <div
           className="timeline-slider-block"
-          style={{ width: `${sliderRangeWidth}px` }}
+          style={{
+            width: `${sliderRangeWidth}px`,
+            left: `${getSliderPostion()}px`,
+          }}
         ></div>
       </div>
       <div className="timeline-bottom-axis-wrapper">
