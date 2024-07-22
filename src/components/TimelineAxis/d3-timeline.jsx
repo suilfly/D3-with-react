@@ -9,7 +9,7 @@ export default function D3AxisTimeLine() {
     {
       name: '暂停',
       selected: false,
-      callback: pauseTime,
+      callback: clickPauseOrPlayHandle,
     },
     {
       name: '回放',
@@ -36,10 +36,25 @@ export default function D3AxisTimeLine() {
   let axisRatioTimer = null;
   let lastRatioTime = null;
 
+  function clickPauseOrPlayHandle() {
+    controlBtn[0].selected ? playTime() : pauseTime();
+  }
+
   function pauseTime() {
-    controlBtn[0].selected = !controlBtn[0].selected;
-    controlBtn[0].name = controlBtn[0].selected ? '播放' : '暂停';
+    controlBtn[0].selected = true;
+    controlBtn[0].name = '播放';
     setControlBtn([...controlBtn]);
+    clearFrameTimer();
+  }
+
+  function playTime() {
+    controlBtn[0].selected = false;
+    controlBtn[0].name = '暂停';
+    setControlBtn([...controlBtn]);
+    clearFrameTimer();
+  }
+
+  function clearFrameTimer() {
     axisRatioTimer && cancelAnimationFrame(axisRatioTimer);
     axisRatioTimer = null;
   }
@@ -146,8 +161,7 @@ export default function D3AxisTimeLine() {
     }
 
     return () => {
-      axisRatioTimer && cancelAnimationFrame(axisRatioTimer);
-      axisRatioTimer = null;
+      clearFrameTimer();
     };
   }, [axisWidth, controlBtn]);
   return (
