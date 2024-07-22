@@ -24,3 +24,18 @@ export function getDateStringByTimestamp(timestamp, precision = 'second') {
 export function fillStartZero(value, maxLength) {
   return `${value}`.padStart(maxLength, '0');
 }
+
+export function getClassName(values) {
+  const res = [];
+  values.forEach((item) => {
+    if (typeof item === 'string') {
+      res.push(item);
+    }
+    if (typeof item === 'object') {
+      const key = Object.keys(item)[0];
+      item[key] ? res.push(key) : null;
+    }
+  });
+
+  return res.join(' ');
+}

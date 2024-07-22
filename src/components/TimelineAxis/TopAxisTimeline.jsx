@@ -1,7 +1,7 @@
 import markerPointIcon from '@/assets/imgs/marker-pointer.png';
 import { getDateStringByTimestamp } from '@/utils/index';
 
-export default function TopAxisTimeline({ axisWidth, timeInfo }) {
+export default function TopAxisTimeline({ axisWidth, timeInfo, onJumpTo }) {
   function renderTopAxisLabels() {
     const labelCount = 21;
     const labelSecondsInterval =
@@ -28,6 +28,12 @@ export default function TopAxisTimeline({ axisWidth, timeInfo }) {
     });
   }
 
+  function jumpToTime(e) {
+    e.stopPropagation();
+    const mouse = e.nativeEvent;
+    onJumpTo(mouse.offsetX);
+  }
+
   return (
     <div className="timeline-axis-time">
       <div
@@ -35,6 +41,7 @@ export default function TopAxisTimeline({ axisWidth, timeInfo }) {
         style={{
           width: axisWidth + 'px',
         }}
+        onClick={jumpToTime}
       >
         <img className="timeline-marker" src={markerPointIcon} />
       </div>

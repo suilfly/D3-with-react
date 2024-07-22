@@ -1,6 +1,13 @@
 import { getDateStringByTimestamp } from '@/utils/index';
+import { useState } from 'react';
 
-export default function BottomAxisTimeline({ sliderRangeWidth, timeInfo }) {
+export default function BottomAxisTimeline({
+  sliderRangeWidth,
+  timeInfo,
+  onJumpToRange,
+}) {
+  let left = 0;
+
   function renderBottomAxisLabels() {
     const labelCount = 31;
     const interval =
@@ -28,13 +35,22 @@ export default function BottomAxisTimeline({ sliderRangeWidth, timeInfo }) {
   function getSliderPostion() {
     const distance = timeInfo.axisPointStartTimeStamp - timeInfo.startTimeStamp;
     const totalDistance = timeInfo.endTimeStamp - timeInfo.startTimeStamp;
+    left = (1193 / totalDistance) * distance;
+    return left;
+  }
 
-    return (1193 / totalDistance) * distance;
+  function jumpToRangeHandle(e) {
+    e.stopPropagation();
+    const mouse = e.nativeEvent;
+    const stepTimeStamp = parseInt(
+      ((timeInfo.endTimeStamp - timeInfo.startTimeStamp) * mouse.offsetX) / 1193
+    );
+    onJumpToRange(stepTimeStamp);
   }
 
   return (
     <div className="timeline-range-wrapper">
-      <div className="timeline-range">
+      <div className="timeline-range" onClick={jumpToRangeHandle}>
         <div
           className="timeline-slider-block"
           style={{

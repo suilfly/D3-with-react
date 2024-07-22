@@ -19,11 +19,16 @@
           height: calc(29px / 2);
           line-height: calc(29px / 2);
           font-size: 9px;
-          background-color: #a1a9ba;
+          background-color: rgba(255, 255, 255, 0.18);
           color: #0f0f0f;
           text-align: center;
           border-radius: 2px;
           margin-left: 3px;
+          cursor: pointer;
+        }
+
+        .btn-selected {
+          background-color: #a1a9ba;
         }
       }
 
@@ -37,6 +42,7 @@
           height: 100%;
           background-color: rgba(68, 158, 254, 0.4);
           position: relative;
+          cursor: pointer;
 
           .timeline-marker {
             width: 3.5px;
@@ -52,6 +58,7 @@
         .timeline-axis-label-wrapper {
           width: 100%;
           display: flex;
+          cursor: pointer;
         }
       }
     }

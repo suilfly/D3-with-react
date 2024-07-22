@@ -1,26 +1,28 @@
 import '@/assets/style/timeline.scss';
-import markerPointIcon from '@/assets/imgs/marker-pointer.png';
 import { useEffect, useState } from 'react';
-import { getDateStringByTimestamp } from '@/utils/index';
 import TopAxisTimeline from './TopAxisTimeline';
 import BottomAxisTimeline from './BottomAxisTimeline';
-const controlBtn = [
-  {
-    name: '暂停',
-    selected: true,
-  },
-  {
-    name: '回放',
-    selected: false,
-  },
-  {
-    name: '实时',
-    selected: true,
-  },
-];
+import { getClassName, getDateStringByTimestamp } from '../../utils';
 
 export default function D3AxisTimeLine() {
-  const [controlList, setControlList] = useState(controlBtn);
+  const [controlBtn, setControlBtn] = useState([
+    {
+      name: '暂停',
+      selected: false,
+      callback: pauseTime,
+    },
+    {
+      name: '回放',
+      selected: false,
+      callback: () => {},
+    },
+    {
+      name: '实时',
+      selected: false,
+      callback: () => {},
+    },
+  ]);
+  const [controlList] = useState(controlBtn);
   const [axisWidth, setAxisWidth] = useState(0);
   const [timeInfo, setTimeInfo] = useState({
     axisPointStartTimeStamp: new Date('2024-7-17 08:00:00').getTime(),
@@ -34,10 +36,53 @@ export default function D3AxisTimeLine() {
   let axisRatioTimer = null;
   let lastRatioTime = null;
 
+  function pauseTime() {
+    controlBtn[0].selected = !controlBtn[0].selected;
+    controlBtn[0].name = controlBtn[0].selected ? '播放' : '暂停';
+    setControlBtn([...controlBtn]);
+    axisRatioTimer && cancelAnimationFrame(axisRatioTimer);
+    axisRatioTimer = null;
+  }
+
+  /**
+   * 时间轴上轴跳转到过去某一时刻
+   * @param x 点击的偏移量
+   */
+  function jumpToHandle(x) {
+    setAxisWidth(x);
+    pauseTime();
+  }
+
+  /**
+   * 时间轴下轴跳转到某范围
+   * @param step 时间偏移量
+   */
+  function jumpToRangeHandle(step) {
+    const tempStart = timeInfo.startTimeStamp + step;
+    const tempEnd = timeInfo.axisPointEndTimeStamp + getTotalms();
+    timeInfo.axisPointStartTimeStamp = new Date(
+      getDateStringByTimestamp(tempStart, 'minute')
+    ).getTime();
+    timeInfo.axisPointEndTimeStamp = new Date(
+      getDateStringByTimestamp(tempEnd, 'minute')
+    ).getTime();
+
+    setTimeInfo({ ...timeInfo });
+    setAxisWidth(0);
+    pauseTime();
+  }
+
   function renderControlBtns() {
-    return controlList.map(({ name, selected }) => {
+    return controlList.map(({ name, callback, selected }) => {
       return (
-        <div className="timeline-top-btn" key={name}>
+        <div
+          className={getClassName([
+            'timeline-top-btn',
+            { 'btn-selected': selected },
+          ])}
+          key={name}
+          onClick={callback}
+        >
           {name}
         </div>
       );
@@ -96,23 +141,30 @@ export default function D3AxisTimeLine() {
   }
 
   useEffect(() => {
-    updateAxis();
+    if (!controlBtn[0].selected) {
+      updateAxis();
+    }
 
     return () => {
       axisRatioTimer && cancelAnimationFrame(axisRatioTimer);
       axisRatioTimer = null;
     };
-  });
+  }, [axisWidth, controlBtn]);
   return (
     <div className="timeline-wrapper">
       <div className="timeline-top-wrapper">
         <div className="timeline-control-btn">{renderControlBtns()}</div>
-        <TopAxisTimeline axisWidth={axisWidth} timeInfo={timeInfo} />
+        <TopAxisTimeline
+          axisWidth={axisWidth}
+          timeInfo={timeInfo}
+          onJumpTo={jumpToHandle}
+        />
       </div>
       <div className="timeline-bottom-wrapper">
         <BottomAxisTimeline
           sliderRangeWidth={sliderRangeWidth}
           timeInfo={timeInfo}
+          onJumpToRange={jumpToRangeHandle}
         />
       </div>
     </div>
