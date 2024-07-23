@@ -40,7 +40,7 @@ export default function Home() {
     <div className="root-wrapper">
       <header>
         <div className="header-container">
-          <img src={logo} />
+          {/* <img src={logo} /> */}
           <div className="menu-list">
             {menuLists.map((item, index) => {
               return (
